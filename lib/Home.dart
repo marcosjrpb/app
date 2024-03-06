@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:appyoutube2/telas/Biblioteca.dart';
 import 'package:appyoutube2/telas/EmAlta.dart';
 import 'package:appyoutube2/telas/Inicio.dart';
@@ -96,3 +97,22 @@ class _HomeState extends State<Home> {
     );
   }
 }
+=======
+
+ import 'package:flutter/material.dart';
+
+class Home extends StatefulWidget {
+   const Home({super.key});
+
+   @override
+   State<Home> createState() => _HomeState();
+ }
+
+ class _HomeState extends State<Home> {
+   @override
+   Widget build(BuildContext context) {
+     return const Placeholder();
+   }
+ }
+
+>>>>>>> cc5280339b45acd17713f6e506ca6ac21386df5c
