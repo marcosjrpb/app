@@ -1,99 +1,98 @@
-import 'package:appyoutube2/telas/Biblioteca.dart';
-import 'package:appyoutube2/telas/EmAlta.dart';
-import 'package:appyoutube2/telas/Inicio.dart';
-import 'package:appyoutube2/telas/Inscricao.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+import 'telas/Biblioteca.dart';
+import 'telas/EmAlta.dart';
+import 'telas/Inicio.dart';
+import 'telas/Inscricao.dart';
 
+
+class Home extends StatefulWidget {
   @override
-  State<Home> createState() => _HomeState();
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
   int _indiceAtual = 0;
+
   @override
   Widget build(BuildContext context) {
-    List telas =[
+
+    List<Widget> telas = [
       Inicio(),
       EmAlta(),
       Inscricao(),
-      Biblioteca(),
+      Biblioteca()
     ];
+
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+            color: Colors.grey
+        ),
+        backgroundColor: Colors.white,
         title: Image.asset(
           "images/youtube.png",
           width: 98,
           height: 22,
         ),
-        backgroundColor: Color(0xFFBBBBBB),
-        actions: [
+        actions: <Widget>[
           IconButton(
-            onPressed: () {
-              print("Ação VidoCam");
+            icon: Icon(Icons.videocam),
+            onPressed: (){
+              print("acao: videocam");
             },
-            icon: Icon(
-              Icons.videocam,
-              color: Colors.white,
-            ),
           ),
           IconButton(
-              onPressed: () {
-                print("Ação Seach");
-              },
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              )),
+            icon: Icon(Icons.search),
+            onPressed: (){
+              print("acao: pesquisa");
+            },
+          ),
           IconButton(
-              onPressed: () {
-                print("Ação User");
-              },
-              icon: Icon(
-                Icons.account_circle,
-                color: Colors.white,
-              )),
-        ],
-      ),
-      body: telas[_indiceAtual],
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _indiceAtual,
-        onTap: (indice) {
-          setState(() {
-            _indiceAtual = indice;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        //os backgroundColor estão comentados para caso deseje acionar
-        //o shifting funcionar.
-        fixedColor: Colors.black,
-        items: [
-          BottomNavigationBarItem(
-            label: 'Início',
-            icon: Icon(Icons.home),
-           // backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-            label: 'Em Alta',
-            icon: Icon(Icons.whatshot),
-           // backgroundColor: Colors.redAccent,
-          ),
-          BottomNavigationBarItem(
-            label: '\Inscrição',
-            icon: Icon(Icons.subscriptions),
-          //  backgroundColor: Colors.orange,
-          ),
-          BottomNavigationBarItem(
-            label: '\Biblioteca',
-            icon: Icon(Icons.folder_copy),
-         //   backgroundColor: Colors.indigo,
+            icon: Icon(Icons.account_circle),
+            onPressed: (){
+              print("acao: conta");
+            },
           )
         ],
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: telas[_indiceAtual],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _indiceAtual,
+          onTap: (indice){
+            setState(() {
+              _indiceAtual = indice;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          fixedColor: Colors.red,
+          items: const [
+            BottomNavigationBarItem(
+              //backgroundColor: Colors.orange,
+                label:"Início",
+                icon: Icon(Icons.home)
+            ),
+            BottomNavigationBarItem(
+              //backgroundColor: Colors.red,
+                label: "Em alta",
+                icon: Icon(Icons.whatshot)
+            ),
+            BottomNavigationBarItem(
+              //backgroundColor: Colors.blue,
+                label:"Inscrições",
+                icon: Icon(Icons.subscriptions)
+            ),
+            BottomNavigationBarItem(
+              //backgroundColor: Colors.green,
+                label:"Biblioteca",
+                icon: Icon(Icons.folder)
+            ),
+          ]
       ),
     );
   }
 }
-
