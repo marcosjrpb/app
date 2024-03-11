@@ -1,9 +1,10 @@
+import 'package:appyoutube2/CustomSearchDelegate.dart';
+import 'package:appyoutube2/telas/Biblioteca.dart';
+import 'package:appyoutube2/telas/EmAlta.dart';
+import 'package:appyoutube2/telas/Inicio.dart';
+import 'package:appyoutube2/telas/Inscricao.dart';
 import 'package:flutter/material.dart';
 
-import 'telas/Biblioteca.dart';
-import 'telas/EmAlta.dart';
-import 'telas/Inicio.dart';
-import 'telas/Inscricao.dart';
 
 
 class Home extends StatefulWidget {
@@ -37,24 +38,38 @@ class _HomeState extends State<Home> {
           height: 22,
         ),
         actions: <Widget>[
+
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              String? res = await showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate()
+              );
+              if (res != null) {
+                print("resultado: digitado " + res);
+              } else {
+                print("Pesquisa cancelada");
+              }
+            },
+          ),
+          /*
           IconButton(
             icon: Icon(Icons.videocam),
             onPressed: (){
               print("acao: videocam");
             },
           ),
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: (){
-              print("acao: pesquisa");
-            },
-          ),
+
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: (){
               print("acao: conta");
             },
           )
+          */
+
+
         ],
       ),
       body: Container(
@@ -70,7 +85,7 @@ class _HomeState extends State<Home> {
           },
           type: BottomNavigationBarType.fixed,
           fixedColor: Colors.red,
-          items: const [
+          items: [
             BottomNavigationBarItem(
               //backgroundColor: Colors.orange,
                 label:"Início",
@@ -78,17 +93,17 @@ class _HomeState extends State<Home> {
             ),
             BottomNavigationBarItem(
               //backgroundColor: Colors.red,
-                label: "Em alta",
+                label:  "Em alta" ,
                 icon: Icon(Icons.whatshot)
             ),
             BottomNavigationBarItem(
               //backgroundColor: Colors.blue,
-                label:"Inscrições",
+                label: "Inscrições",
                 icon: Icon(Icons.subscriptions)
             ),
             BottomNavigationBarItem(
               //backgroundColor: Colors.green,
-                label:"Biblioteca",
+                label: "Biblioteca",
                 icon: Icon(Icons.folder)
             ),
           ]

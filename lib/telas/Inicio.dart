@@ -29,10 +29,10 @@ class _InicioState extends State<Inicio> {
           case ConnectionState.active:
           case ConnectionState.done:
             if (snapshot.hasData) {
-              return ListView.separated(
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  List<Video>? videos = snapshot.data;
-                  Video video = videos![index];
+                  Video video = snapshot.data![index];
 
                   return Column(
                     children: [
@@ -40,24 +40,18 @@ class _InicioState extends State<Inicio> {
                         height: 200,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(video.imagem ?? ''),
+                            image: NetworkImage(video.imagem),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                       ListTile(
-                        title: Text(video.titulo!),
-                        subtitle: Text(video.canal!),
-
+                        title: Text(video.titulo),
+                        subtitle: Text(video.canal),
                       ),
                     ],
                   );
                 },
-                separatorBuilder: (context, index) => Divider(
-                  height: 2,
-                  color: Colors.blueGrey,
-                ),
-                itemCount: snapshot.data?.length ?? 0,
               );
             } else {
               return Center(

@@ -2,13 +2,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 class Video {
 
-  String? id;
-  String? titulo;
-  String? descricao;
-  String? imagem;
-  String? canal;
+  String id;
+  String titulo;
+  String descricao;
+  String imagem;
+  String canal;
 
-  Video({this.id, this.titulo, this.descricao, this.imagem, this.canal});
+  Video({required this.id, required this.titulo, required this.descricao, required this.imagem, required this.canal});
 
   /*
   static converterJson(Map<String, dynamic> json){
