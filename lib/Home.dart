@@ -15,12 +15,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int _indiceAtual = 0;
-
+  String _resultado = "";
   @override
   Widget build(BuildContext context) {
 
+
     List<Widget> telas = [
-      Inicio(),
+      Inicio(_resultado),
       EmAlta(),
       Inscricao(),
       Biblioteca()
@@ -44,15 +45,18 @@ class _HomeState extends State<Home> {
             onPressed: () async {
               String? res = await showSearch(
                   context: context,
-                  delegate: CustomSearchDelegate()
+                  delegate: CustomSearchDelegate(),
               );
-              if (res != null) {
-                print("resultado: digitado " + res);
-              } else {
-                print("Pesquisa cancelada");
-              }
+
+              print("resultado digitado " + res!);
+
+                setState(() {
+                  _resultado = res;
+                });
+
             },
           ),
+
           /*
           IconButton(
             icon: Icon(Icons.videocam),

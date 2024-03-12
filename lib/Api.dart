@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'model/Video.dart';
 
-//const CHAVE_YOUTUBE_API="AIzaSyAOTBqaFp21gFTEauNhQ2nUUPNGWw4FLf0";
-const CHAVE_YOUTUBE_API = "AIzaSyBrQSLDqhY4II3lRaYHkCEW5zfNOQtsGZc";
+const CHAVE_YOUTUBE_API="AIzaSyAOTBqaFp21gFTEauNhQ2nUUPNGWw4FLf0";
+//const CHAVE_YOUTUBE_API = "AIzaSyBrQSLDqhY4II3lRaYHkCEW5zfNOQtsGZc";
 const ID_CANAL="UCVHFbqXqoYvEWM1Ddxl0QDg";
 const URL_BASE="https://www.googleapis.com/youtube/v3/";
 class Api {
