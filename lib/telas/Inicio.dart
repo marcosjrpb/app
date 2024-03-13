@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:appyoutube2/Api.dart';
-import 'package:appyoutube2/model/Video.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../Api.dart';
+import '../model/Video.dart';
 
 class Inicio extends StatefulWidget {
+  final String pesquisaInicio;
 
-  String pesquisa;
-  Inicio(this.pesquisa);
+  Inicio(this.pesquisaInicio);
 
   @override
   State<Inicio> createState() => _InicioState();
 }
 
 class _InicioState extends State<Inicio> {
+  late YoutubePlayerController _controller;
 
-  Future<List<Video>> _listarVideos( String pesquisa) async {
-    Api api = Api();
-    return api.pesquisar(pesquisa);
+  // Cria a lista de vídeos que será apresentada ao usuário através da classe API.dart
+  Future<List<Video>?> _listarVideos(String pesquisaDoUsuario) async {
+    Api myApi = Api();
+    return myApi.pesquisar(pesquisaDoUsuario);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Video>>(
-      future: _listarVideos(widget.pesquisa),
+    return FutureBuilder<List<Video>?>(
+      future: _listarVideos(widget.pesquisaInicio),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -32,37 +35,77 @@ class _InicioState extends State<Inicio> {
           case ConnectionState.active:
           case ConnectionState.done:
             if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
+              return ListView.separated(
                 itemBuilder: (context, index) {
-                  Video video = snapshot.data![index];
-
-                  return Column(
-                    children: [
-                      Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(video.imagem),
-                            fit: BoxFit.cover,
+                  List<Video>? auxVideoList = snapshot.data;
+                  Video auxVideo = auxVideoList![index];
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: OrientationBuilder(
+                              builder: (context, orientation) {
+                                return Container(
+                                  width: orientation == Orientation.portrait
+                                      ? MediaQuery.of(context).size.width * 0.8
+                                      : MediaQuery.of(context).size.width,
+                                  height: orientation == Orientation.portrait
+                                      ? null
+                                      : MediaQuery.of(context).size.height,
+                                  child: YoutubePlayer(
+                                    controller: YoutubePlayerController(
+                                      initialVideoId: auxVideo.id,
+                                      flags: YoutubePlayerFlags(
+                                        mute: false,
+                                        autoPlay: true,
+                                      ),
+                                    ),
+                                    aspectRatio: 16 / 9,
+                                    showVideoProgressIndicator: true,
+                                    progressIndicatorColor: Colors.blueAccent,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(auxVideo.imagem),
+                            ),
                           ),
                         ),
-                      ),
-                      ListTile(
-                        title: Text(video.titulo),
-                        subtitle: Text(video.canal),
-                      ),
-                    ],
+                        ListTile(
+                          title: Text(auxVideo.titulo),
+                          subtitle: Text(auxVideo.descricao),
+                        ),
+                      ],
+                    ),
                   );
                 },
+                separatorBuilder: (context, index) => Divider(
+                  height: 3,
+                  color: Colors.red,
+                ),
+                itemCount: snapshot.data!.length,
               );
             } else {
               return Center(
-                child: Text("Nenhum dado a ser exibido!"),
+                child: Text("Nenhum dado a ser exibido"),
               );
             }
-          default:
-            return Container(); // Tratamento para outros estados, se necessário
         }
       },
     );
